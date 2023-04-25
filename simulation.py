@@ -20,7 +20,7 @@ def point_on_triangle(pt1, pt2, pt3):
             int(s * pt1[1] + t * pt2[1] + u * pt3[1]))
 
 # The Sierpinski Triangle Simulation
-def simulate(grid_size=(101,101)):
+def simulate(grid_size=(101,101), num_iterations=100):
     x, y = grid_size
     # Check grid dimensions
     assert x == y
@@ -38,17 +38,18 @@ def simulate(grid_size=(101,101)):
     
     # Step 2. Pick a random point within T.
     starting_point = point_on_triangle(pt1, pt2, pt3)
-    print(starting_point)
     grid[starting_point] = 1
+
+    # Step 3. We are now at our starting point p.
+    initial_points = (pt1, pt2, pt3)
+    for _ in range(num_iterations):
+        # Step 4. Pick a random point r from the initial 3 points that formed T.
+        r = initial_points[random.randint(0,2)]
+        # Step 5. Draw a new point in the middle of the line from p to r.
+        starting_point = ((starting_point[0] + r[0]) // 2, (starting_point[1] + r[1]) // 2)
+        grid[starting_point] = 1
+        # Our new point is our new starting point. Repeat from step 3!
     disp(grid)
 
-    # # Test. Make sure this actually forms an equialateral triangle
-    # from scipy.spatial import distance
-    # a = (0, y // 2)
-    # b = (100, 0)
-    # c = (100, 100)
-    # print(distance.euclidean(a, b))
-    # print(distance.euclidean(b, c))
-    # print(distance.euclidean(a, c))
 
-simulate()
+simulate(grid_size=(512, 512), num_iterations=80)
