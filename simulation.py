@@ -1,5 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
+from matplotlib.animation import FuncAnimation
 import random
 
 # Display function
@@ -38,19 +39,27 @@ def simulate(grid_size=(101,101), num_iterations=100):
     grid[pt3] = 1
     
     # Step 2. Pick a random point within T.
-    starting_point = point_on_triangle(pt1, pt2, pt3)
-    grid[starting_point] = 1
+    starting_point = [point_on_triangle(pt1, pt2, pt3)]
+    grid[starting_point[0]] = 1
 
     # Step 3. We are now at our starting point p.
     initial_points = (pt1, pt2, pt3)
-    for _ in range(num_iterations):
+    #for _ in range(num_iterations):
+    fig, ax = plt.subplots(figsize=(4,4))
+    def sim(i, initial_points=initial_points, starting_point=starting_point):
         # Step 4. Pick a random point r from the initial 3 points that formed T.
         r = initial_points[random.randint(0,2)]
         # Step 5. Draw a new point in the middle of the line from p to r.
-        starting_point = ((starting_point[0] + r[0]) // 2, (starting_point[1] + r[1]) // 2)
-        grid[starting_point] = 1
+        sp = starting_point[0]
+        sp = ((sp[0] + r[0]) // 2, (sp[1] + r[1]) // 2)
+        grid[sp] = 1
+        starting_point[0] = sp
+        ax.imshow(grid)
+        ax.set_axis_off()
         # Our new point is our new starting point. Repeat from step 3!
-    disp(grid)
+    anim = FuncAnimation(fig, sim, frames=20, interval=1)
+    anim.save('simulation2.gif', dpi=80, writer='imagemagick', fps=100)
+    plt.close()
 
 
-simulate(grid_size=(512, 512), num_iterations=2**20)
+simulate(grid_size=(512, 512), num_iterations=80)
