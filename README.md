@@ -13,5 +13,6 @@ You can see the result in the **Simulation** section.
 5. Imagine a line going from **p** to **r**. Draw a new point in the middle of that line.
 6. Our new point is our new starting point. Repeat from step 3!
 ## Simulation
-
+## Final Result
+![](2_20_result.png)
 
