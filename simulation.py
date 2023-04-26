@@ -5,7 +5,8 @@ import random
 # Display function
 def disp(grid):
     fig, ax = plt.subplots()
-    fig.colorbar(ax.imshow(grid, cmap="inferno", vmin=0))
+    ax.imshow(grid, cmap="inferno", vmin=0)
+    ax.set_axis_off()
     plt.show()
 
 # Generate a random point on a triangle
@@ -52,4 +53,4 @@ def simulate(grid_size=(101,101), num_iterations=100):
     disp(grid)
 
 
-simulate(grid_size=(512, 512), num_iterations=80)
+simulate(grid_size=(512, 512), num_iterations=2**20)
